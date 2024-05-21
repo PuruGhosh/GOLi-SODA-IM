@@ -17,7 +17,8 @@ public class Batch {
     @JoinColumn(name = "productID", nullable = false)
     private Product product;
 
-    private int quantity;
+    private Long quantity;
+    private Long itemLeft;
 
     @Column(length = 255)
     private String flavour;

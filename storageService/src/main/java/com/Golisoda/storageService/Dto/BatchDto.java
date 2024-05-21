@@ -13,7 +13,9 @@ public class BatchDto {
     private String batchID;
     private String productID; // To reference the associated product
 
-    private int quantity;
+    private Long quantity;
+
+    private Long itemLeft;
 
     private String flavour;
 
