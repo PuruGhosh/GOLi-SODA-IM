@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
+@Table(name = "address")
 //Address ( id, address_line1, address_line2, pin, city, district, state, country, user_type, user_id)
 public class Address {
     @Id
@@ -22,5 +25,8 @@ public class Address {
     private String country;
     private String user_type;
     private String userId;
+    public Address() {
+        this.address_id = UUID.randomUUID().toString(); // Assign UUID as the ID
+    }
 
 }

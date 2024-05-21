@@ -10,16 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class warehouseDto {
-    private String WarehouseID;
     private String name;
-    private Address address;
+    private addressDto address;
     private Long capacity;
     private String manager_name;
     private Long manager_phn_no;
     private Long alt_phn_no;
     private Long aadhar_no;
-    private Long pan_no;
-    private String email_id;
+    private String  pan_no;
+    private String emailid;
     private String region;
 
 }

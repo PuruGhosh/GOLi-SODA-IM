@@ -16,7 +16,7 @@ public class userController {
     @Autowired
     userService userservice;
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public ResponseEntity<RestResponse<userDto>> createUser(@RequestBody userDto user){
 
         log.info("Creating user{}",user);
@@ -27,27 +27,27 @@ public class userController {
 
     }
 
-    @GetMapping("/read/{id}")
-    public ResponseEntity<RestResponse<userDto>> readUser(@PathVariable String  id){
+    @GetMapping("email/{email_id}")
+    public ResponseEntity<RestResponse<userDto>> readUser(@PathVariable String  email_id){
 
-        log.info("fetching data from service with user id{}",id);
+        log.info("fetching data from service with user email id {}",email_id);
         RestResponse<userDto> response= new RestResponse<>();
-        response.setData(userservice.readUser(id));
+        response.setData(userservice.readUser(email_id));
         return ResponseEntity.ok(response);
     }
     @PostMapping("/delete")
-    public ResponseEntity<RestResponse<String>> deleteUser(@RequestBody String id){
+    public ResponseEntity<RestResponse<String>> deleteUser(@RequestBody String email_id){
 
-        log.info("deleting user from service with user id{}",id);
+        log.info("deleting user from service with user id{}",email_id);
         RestResponse<String> response= new RestResponse<>();
-        response.setData(userservice.deleteUser(id));
+        response.setData(userservice.deleteUser(email_id));
         return ResponseEntity.ok(response);
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<RestResponse<userDto>> updateUser(@PathVariable String id, @RequestBody userDto user){
-        log.info("updating user from service with user id{}",id);
+    @PutMapping("/update/{email_id}")
+    public ResponseEntity<RestResponse<userDto>> updateUser(@PathVariable String email_id, @RequestBody userDto user){
+        log.info("updating user from service with user id{}",email_id);
         RestResponse<userDto> response= new RestResponse<>();
-        response.setData(userservice.updateUser(id,user));
+        response.setData(userservice.updateUser(email_id,user));
         return ResponseEntity.ok(response);
     }
 

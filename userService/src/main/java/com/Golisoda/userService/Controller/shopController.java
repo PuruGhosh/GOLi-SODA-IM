@@ -27,27 +27,27 @@ public class shopController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("read/{id}")
-    public ResponseEntity<RestResponse<shopDto>> readUser(@PathVariable String id){
+    @GetMapping("email/{email_id}")
+    public ResponseEntity<RestResponse<shopDto>> readUser(@PathVariable String email_id){
 
-        log.info("fetching data from service with shop id {}",id);
+        log.info("fetching data from service with shop id {}",email_id);
         RestResponse<shopDto> response = new RestResponse<>();
-        response.setData(shopservice.readUser(id));
+        response.setData(shopservice.readUser(email_id));
         return ResponseEntity.ok(response);
     }
     @PostMapping("delete")
-    public ResponseEntity<RestResponse<String>> deleteUser(@RequestBody String id){
+    public ResponseEntity<RestResponse<String>> deleteUser(@RequestBody String email_id){
 
-        log.info("deleting user from service with user id{}",id);
+        log.info("deleting user from service with user id{}",email_id);
         RestResponse<String> response= new RestResponse<>();
-        response.setData(shopservice.deleteUser(id));
+        response.setData(shopservice.deleteUser(email_id));
         return ResponseEntity.ok(response);
     }
-    @PutMapping("update/{id}")
-    public ResponseEntity<RestResponse<shopDto>> updateUser(@PathVariable String id, @RequestBody shopDto shop){
-        log.info("updating user from service with user id{}",id);
+    @PutMapping("update/{email_id}")
+    public ResponseEntity<RestResponse<shopDto>> updateUser(@PathVariable String email_id, @RequestBody shopDto shop){
+        log.info("updating user from service with email id {}",email_id);
         RestResponse<shopDto> response= new RestResponse<>();
-        response.setData(shopservice.updateUser(id,shop));
+        response.setData(shopservice.updateUser(email_id,shop));
         return ResponseEntity.ok(response);
     }
 

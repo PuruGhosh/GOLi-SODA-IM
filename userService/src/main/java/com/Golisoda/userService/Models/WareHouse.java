@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 //Warehouse(WarehouseID (Primary Key), Name, address_id, Capacity, Manager_name, manager_phn_no, alt_phone_no, aadhaar_no, pan_no, email_id, region)
 public class WareHouse {
 
@@ -24,8 +26,11 @@ public class WareHouse {
     private Long manager_phn_no;
     private Long alt_phn_no;
     private Long aadhar_no;
-    private Long pan_no;
-    private String email_id;
+    private String  pan_no;
+    private String emailid;
     private String region;
 
+    public WareHouse() {
+        this.WarehouseID = UUID.randomUUID().toString();
+    }
 }

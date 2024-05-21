@@ -18,35 +18,35 @@ public class addressController {
     addressService addressservice;
 
 
-    @PostMapping("add")
-    public ResponseEntity<RestResponse<addressDto>> addAddress(@RequestBody addressDto address){
-        log.info("Adding address {}",address);
-        RestResponse<addressDto> response = new RestResponse<>();
-        response.setData(addressservice.addAddress(address));
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("add")
+//    public ResponseEntity<RestResponse<addressDto>> addAddress(@RequestBody addressDto address){
+//        log.info("Adding address {}",address);
+//        RestResponse<addressDto> response = new RestResponse<>();
+//        response.setData(addressservice.addAddress(address));
+//        return ResponseEntity.ok(response);
+//    }
 
-    @GetMapping("read/{id}")
-    public ResponseEntity<RestResponse<addressDto>> readAddress(@PathVariable String id){
-
-        log.info("Fetching address");
-        RestResponse<addressDto> response = new RestResponse<>();
-        response.setData(addressservice.readAddress(id));
-        return ResponseEntity.ok(response);
-    }
-    @PostMapping("delete")
-    public ResponseEntity<RestResponse<String>> deleteAddress(@RequestBody String id){
-
-        log.info("Deleting address");
-        RestResponse<String> response = new RestResponse<>();
-        response.setData(addressservice.deleteAddress(id));
-        return ResponseEntity.ok(response);
-    }
-    @PutMapping("update/{id}")
-    public ResponseEntity<RestResponse<addressDto>> updateAddress(@PathVariable String id, @RequestBody addressDto address){
-        log.info("Updating address {}",address);
-        RestResponse<addressDto> response = new RestResponse<>();
-        response.setData(addressservice.updateAddress(id,address));
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping("read/{id}")
+//    public ResponseEntity<RestResponse<addressDto>> readAddress(@PathVariable String id){
+//
+//        log.info("Fetching address");
+//        RestResponse<addressDto> response = new RestResponse<>();
+//        response.setData(addressservice.readAddress(id));
+//        return ResponseEntity.ok(response);
+//    }
+//    @PostMapping("delete")
+//    public ResponseEntity<RestResponse<String>> deleteAddress(@RequestBody String id){
+//
+//        log.info("Deleting address");
+//        RestResponse<String> response = new RestResponse<>();
+//        response.setData(addressservice.deleteAddress(id));
+//        return ResponseEntity.ok(response);
+//    }
+//    @PutMapping("update/{id}")
+//    public ResponseEntity<RestResponse<addressDto>> updateAddress(@PathVariable String id, @RequestBody addressDto address){
+//        log.info("Updating address {}",address);
+//        RestResponse<addressDto> response = new RestResponse<>();
+//        response.setData(addressservice.updateAddress(id,address));
+//        return ResponseEntity.ok(response);
+//    }
 }

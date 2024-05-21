@@ -11,17 +11,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 
 public class userDto {
-    private String user_id;
     private String f_name;
     private String l_name;
     private LocalDate dob;
     private Long aadhar_no;
-    private Long pan_no;
+    private String pan_no;
     private LocalDate doj;
     private String designation;
-    private Integer reporting_user_id;
-    private Address address;
+    private String reporting_user_id;
+    private addressDto address;
     private Long phone_no;
     private Long alt_phone_no;
-    private String email_id;
+    private String emailid;
 }

@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 public class Shop {
 
     @Id
@@ -20,12 +22,15 @@ public class Shop {
     private Address address;
     private Long phone_no;
     private Long alt_phone_no;
-    private String email_id;
+    private String emailid;
     private Long gstin_no;
     private Long trade_lisence_no;
     private String shop_type;
     private Long poc_aadhar_no;
-    private Long poc_pan_no;
+    private String poc_pan_no;
+    public Shop() {
+        this.Shopid = UUID.randomUUID().toString(); // Assign UUID as the ID
+    }
 
 
 }

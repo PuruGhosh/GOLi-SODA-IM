@@ -1,13 +1,12 @@
 package com.Golisoda.userService.Service;
 
 import com.Golisoda.userService.Dto.warehouseDto;
-import com.Golisoda.userService.Models.WareHouse;
+import com.Golisoda.userService.Exception.userException;
+import com.Golisoda.userService.Util.AddressMapper;
 import com.Golisoda.userService.Util.WarehouseMapper;
 import com.Golisoda.userService.dao.WarehouseDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -21,32 +20,54 @@ public class wareHouseService {
     WarehouseDao warehousedao;
     @Autowired
     WarehouseMapper warehousemapper;
+    @Autowired
+    AddressMapper addressMapper;
+    @Autowired
+    addressService addressService;
     public warehouseDto createUSer(warehouseDto warehouse) {
 
         log.info("Adding new warehouse {}",warehouse);
-        var userForDB = warehousemapper.toWarehouse(warehouse);
-        userForDB.setWarehouseID(UUID.randomUUID().toString());
-        return warehousemapper.toWarehouseDto(warehousedao.save(userForDB));
+        var warehouseForDB = warehousemapper.toWarehouse(warehouse);
+        var warehouseId= UUID.randomUUID().toString();
+        warehouseForDB.setWarehouseID(warehouseId);
+        var address = warehouse.getAddress();
+        var addressForDB = addressMapper.toAddress(address);
+        addressForDB.setUserId(warehouseId);
+        var addressID = UUID.randomUUID().toString();
+        addressForDB.setAddress_id(addressID);
+        addressForDB.setUser_type("warehouse");
+        addressService.addAddress(addressForDB);
+        warehouseForDB.setAddress(addressForDB);
+        return warehousemapper.toWarehouseDto(warehousedao.save(warehouseForDB));
 
     }
 
-    public warehouseDto readUser(String id) {
-        log.info("Fetching data from DB with warehouse id {}",id);
-        var userFromDB= warehousedao.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("User not found"));
-        return warehousemapper.toWarehouseDto(userFromDB);
+    public warehouseDto readUser(String email_id) {
+        log.info("Fetching data from DB with warehouse email id {}",email_id);
+        var warehouseFromDB= warehousedao.findByEmailid(email_id);
+        if(warehouseFromDB==null){
+            throw new userException("User with email id %s is not available".formatted(email_id));
+        }
+        return warehousemapper.toWarehouseDto(warehouseFromDB);
     }
 
-    public String deleteUser(String id) {
-        log.info("Deleting warehouse with id {} from DB",id);
-        warehousedao.deleteById(id);
-        return "Deleted user with id" + id;
+    public String deleteUser(String email_id) {
+        log.info("Deleting warehouse with email id {} from DB",email_id);
+        var deletedWarehouseFromDB= warehousedao.findByEmailid(email_id);
+        if(deletedWarehouseFromDB==null){
+            throw new userException("User with email id %s is not available".formatted(email_id));
+        }
+        warehousedao.deleteById(deletedWarehouseFromDB.getWarehouseID());
+        return "Deleted warehouse user with email id" + email_id;
     }
 
-    public warehouseDto updateUser(String  id, warehouseDto warehouse) {
-        log.info("Updating user data in DB with user id {}",id);
-        var existingwarehouse= warehousedao.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("Warehouse not found"));
+    public warehouseDto updateUser(String  email_id, warehouseDto warehouse) {
+        log.info("Updating warehouse user data in DB with email id {}",email_id);
+        var existingwarehouseFromDB= warehousedao.findByEmailid(email_id);
+        if(existingwarehouseFromDB==null){
+            throw new userException("User with email id %s is not available".formatted(email_id));
+        }
+        var existingwarehouse = warehousemapper.toWarehouseDto(existingwarehouseFromDB);
         existingwarehouse.setName(warehouse.getName());
         existingwarehouse.setAddress(warehouse.getAddress());
         existingwarehouse.setCapacity(warehouse.getCapacity());
@@ -55,8 +76,9 @@ public class wareHouseService {
         existingwarehouse.setAlt_phn_no(warehouse.getAlt_phn_no());
         existingwarehouse.setAadhar_no(warehouse.getAadhar_no());
         existingwarehouse.setPan_no(warehouse.getPan_no());
-        existingwarehouse.setEmail_id(warehouse.getEmail_id());
+        existingwarehouse.setEmailid(warehouse.getEmailid());
         existingwarehouse.setRegion(warehouse.getRegion());
-        return warehousemapper.toWarehouseDto(warehousedao.save(existingwarehouse));
+        var resultWarehouse = warehousemapper.toWarehouse(existingwarehouse);
+        return warehousemapper.toWarehouseDto(warehousedao.save(resultWarehouse));
     }
 }
