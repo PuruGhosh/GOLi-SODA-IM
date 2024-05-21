@@ -1,22 +1,18 @@
-package com.Golisoda.userService.Models;
+package com.Golisoda.userService.Dto;
 
-import jakarta.persistence.*;
+import com.Golisoda.userService.Models.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Shop {
+@AllArgsConstructor
 
-    @Id
+public class shopDto {
     private String Shopid;
     private String shop_name;
     private String shop_owner;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
     private Long phone_no;
     private Long alt_phone_no;
@@ -26,6 +22,4 @@ public class Shop {
     private String shop_type;
     private Long poc_aadhar_no;
     private Long poc_pan_no;
-
-
 }

@@ -1,17 +1,14 @@
-package com.Golisoda.userService.Models;
+package com.Golisoda.userService.Dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-//Address ( id, address_line1, address_line2, pin, city, district, state, country, user_type, user_id)
-public class Address {
-    @Id
+@AllArgsConstructor
+
+public class addressDto {
     private String  address_id;
     private String address_line1;
     private String address_line2;
@@ -21,6 +18,5 @@ public class Address {
     private String state;
     private String country;
     private String user_type;
-    private String userId;
-
+    private String user_id;
 }

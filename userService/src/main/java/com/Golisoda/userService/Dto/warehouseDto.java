@@ -1,23 +1,17 @@
-package com.Golisoda.userService.Models;
+package com.Golisoda.userService.Dto;
 
-import jakarta.persistence.*;
+import com.Golisoda.userService.Models.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-//Warehouse(WarehouseID (Primary Key), Name, address_id, Capacity, Manager_name, manager_phn_no, alt_phone_no, aadhaar_no, pan_no, email_id, region)
-public class WareHouse {
+@AllArgsConstructor
 
-
-    @Id
+public class warehouseDto {
     private String WarehouseID;
     private String name;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
     private Long capacity;
     private String manager_name;

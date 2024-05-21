@@ -1,40 +1,50 @@
 package com.Golisoda.userService.Service;
 
-import com.Golisoda.userService.Models.UserdB;
+import com.Golisoda.userService.Dto.userDto;
+import com.Golisoda.userService.Util.UserMapper;
 import com.Golisoda.userService.dao.userDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 
 
 @Service
 
 public class userService {
 
+    private static final Logger log = LoggerFactory.getLogger(userService.class);
     @Autowired
     userDao userdao;
-    public ResponseEntity<String> createUSer(UserdB userdB) {
+    @Autowired
+    UserMapper usermapper;
+    public userDto createUSer(userDto user) {
 
-    userdao.save(userdB);
-    return new ResponseEntity<>("Created a user", HttpStatus.CREATED);
+        log.info("Adding new user {}",user);
+        var userForDB = usermapper.toUser(user);
+    userForDB.setUser_id(UUID.randomUUID().toString());
+    return usermapper.toUserDto(userdao.save(userForDB));
 
     }
 
-    public ResponseEntity<UserdB> readUser(Integer id) {
-        UserdB ud= userdao.findById(id)
+    public userDto readUser(String  id) {
+        log.info("Fetching data from DB with user id {}",id);
+        var userFromDB= userdao.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("User not found"));
-        return new ResponseEntity<>(ud,HttpStatus.OK);
+        return usermapper.toUserDto(userFromDB);
     }
 
-    public ResponseEntity<String> deleteUser(Integer id) {
+    public String deleteUser(String id) {
+        log.info("Deleting user with id {} from DB",id);
         userdao.deleteById(id);
-        return new ResponseEntity<>("Deleted user",HttpStatus.OK);
+        return "Deleted user with id" + id;
     }
 
-    public ResponseEntity<UserdB> updateUser(Integer id, UserdB ud) {
-        UserdB existingud = userdao.findById(id)
+    public userDto updateUser(String id, userDto ud) {
+        log.info("Updating user data in DB with user id {}",id);
+        var existingud = userdao.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("User not found"));
         existingud.setF_name(ud.getF_name());
         existingud.setL_name(ud.getL_name());
@@ -44,12 +54,12 @@ public class userService {
         existingud.setDoj(ud.getDoj());
         existingud.setDesignation(ud.getDesignation());
         existingud.setReporting_user_id(ud.getReporting_user_id());
-        existingud.setAddress_id(ud.getAddress_id());
+        existingud.setAddress(ud.getAddress());
         existingud.setPhone_no(ud.getPhone_no());
         existingud.setAlt_phone_no(ud.getAlt_phone_no());
         existingud.setEmail_id(ud.getEmail_id());
 
-        return new ResponseEntity<>(userdao.save(existingud),HttpStatus.ACCEPTED);
+        return usermapper.toUserDto(userdao.save(existingud));
 
 
 
